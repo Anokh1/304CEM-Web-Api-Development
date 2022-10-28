@@ -1,0 +1,37 @@
+h1{
+    margin-left: 3%;
+}
+
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-right: 3%;
+}
+
+.button {
+    background-color: #d86060;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 16px;
+    transition-duration: 0.3s;
+    cursor: pointer;
+
+}
+
+.logoutButton {
+    background-color: white;
+    color: black;
+    border: 2px solid #d86060;
+    border-radius: 16px;    
+} 
+
+.logoutButton:hover {
+    background-color: #d86060;
+    color: white;
+}
