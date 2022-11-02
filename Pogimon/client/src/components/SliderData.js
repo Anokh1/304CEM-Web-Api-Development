@@ -1,8 +1,10 @@
+// get images from images folder
+// used by ImageSlider 
+
 import Pogimon from '../images/Pogimon.PNG'
 import PokeAPI from '../images/PokeAPI.PNG'
 import DAPI from '../images/DAPI.PNG'
 import Thanks from '../images/Thanks.PNG'
-
 
 export const SliderData = [
     {

@@ -1,5 +1,8 @@
-import React, { useEffect, useState, tempQuote, setTempQuote } from "react";
-import Navbar from '../Navbar';
+// Used for testing JWT token only
+// Not available for access on Pogimon unless changes are made
+
+import React, { useEffect, useState } from "react";
+import Navbar from '../components/Navbar/Navbar';
 import jwt from 'jsonwebtoken'
 import { useNavigate } from "react-router-dom";
 
@@ -59,6 +62,7 @@ const Dashboard = () => {
         }
     }
 
+    // things that you can see
     return (
         <>
         <Navbar /> {/* Navigation Bar */}
@@ -75,7 +79,6 @@ const Dashboard = () => {
             </form>
         </div>
         </>
-        
     )    
 }
 

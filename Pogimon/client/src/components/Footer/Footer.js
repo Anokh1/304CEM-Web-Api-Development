@@ -2,6 +2,8 @@ import React from 'react';
 import './Footer.css'; 
 
 export default function Footer() {
+
+  // things that you can see
   return (
 
     // Simple footer that is used for Home, Pokemon, Digimon, and Account page

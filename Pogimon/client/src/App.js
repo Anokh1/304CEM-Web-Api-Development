@@ -5,15 +5,15 @@ import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import Pokemon from './pages/Pokemon'
 import Digimon from './pages/Digimon'
-import Home from './Home'; 
+import Home from './pages/Home'; 
 import Account from './pages/Account';
-import TestingPokemon from './pages/TestingPokemon'
-
 
 function App() {
 
-    let x = localStorage.getItem('token')
+    let x = localStorage.getItem('token') 
 
+    // if the user is logged in, there will be a token in Local Storage
+    // only allow these routes, when they are logged in or token is available in Local Storage
     if(x){
         return(
             <div>
@@ -28,13 +28,13 @@ function App() {
                         <Route exact path="/digimon" element={<Digimon/>} />
                         <Route exact path="/home" element={<Home/>} />
                         <Route exact path="/account" element={<Account/>} />
-                        <Route exact path="/test" element={<TestingPokemon/>} />
-
                     </Routes>
                 </BrowserRouter>    
             </div>
         )
     } else{
+        // only can access the Register and Login page if users 
+        // does not have an account
         console.log('No token, nothing')
         return(
             <div>
@@ -47,10 +47,7 @@ function App() {
                 </BrowserRouter>    
             </div>
         )
-    }
-
-
-    
+    }    
 }
 
 export default App

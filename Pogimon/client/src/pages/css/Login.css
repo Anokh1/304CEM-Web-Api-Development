@@ -41,6 +41,11 @@
     cursor: pointer;
 }
 
+.submitButton:hover {
+    background-color: white; 
+    color: #660066;
+}
+  
 .registerButton{
     border: none; 
     width: 100%;
@@ -48,4 +53,9 @@
     font-size: 14px;
     cursor: pointer;
     text-align: center;
+}
+
+.registerButton:hover {
+    background-color: transparent;
+    color: green; 
 }

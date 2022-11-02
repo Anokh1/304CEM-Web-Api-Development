@@ -1,5 +1,8 @@
+// Image Slider for Home Screen 
+// Used by SliderCarousel.js 
+
 import React, { useState } from 'react';
-import { SliderData } from './SliderData';
+import { SliderData } from '../SliderData'; // get slider images from here
 import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from 'react-icons/fa';
 
 const ImageSlider = ({ slides }) => {
@@ -29,7 +32,7 @@ const ImageSlider = ({ slides }) => {
             key={index}
           >
             {index === current && (
-              <img src={slide.image} alt='travel image' className='image' />
+              <img src={slide.image} alt='Slider Image' className='image' />
             )}
           </div>
         );
