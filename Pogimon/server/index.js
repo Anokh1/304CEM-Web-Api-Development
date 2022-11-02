@@ -2,31 +2,26 @@ const express = require('express');
 const app = express(); 
 const cors = require('cors'); 
 const mongoose = require('mongoose'); 
-const User = require('./models/user.model'); 
-const Pokemon = require('./models/favoritePokemon'); 
-const Digimon = require('./models/favoriteDigimon')
+const User = require('./models/user.model'); // login and register 
+const MONSTER = require('./models/favouriteMonster')
 const jwt = require('jsonwebtoken'); 
 const bcrypt = require('bcryptjs'); 
 
 app.use(cors())
 app.use(express.json())
-app.use('/api/favorite', require('./favoritePoke'));
-
-
-//mongoose.connect('mongodb://localhost:27017')
 
 mongoose.connect('mongodb+srv://Adrian:1234@cluster0.5opqxgk.mongodb.net/PokeApi?retryWrites=true&w=majority ')
 
-// Used by PokemonThumbnail.js Favorite button
-app.post('/api/favoritePokemon', async (req, res) => {
+// Used by PokemonThumbnail.js and DigimonThumbnail.js Favourite button
+app.post('/api/favouriteMONSTER', async (req, res) => {
     console.log(req.body)
     try {
-        const pokemon = await Pokemon.create({
+        const monster = await MONSTER.create({
             userFrom: req.body.getEmail, // change here
-            pokemonId: req.body.id,
-            pokemonName: req.body.name,
-            pokemonImage: req.body.image,
-            pokemonType: req.body.type
+            monsterId: req.body.id,
+            monsterName: req.body.name,
+            monsterImage: req.body.image,
+            monsterType: req.body.type
         })
         res.json({ status: 'ok' })
     } catch (err) {
@@ -34,23 +29,24 @@ app.post('/api/favoritePokemon', async (req, res) => {
     }
 })
 
-// Used by DigimonThumbnail.js Favorite button
-app.post('/api/favoriteDigimon', async (req, res) => {
+// Used by MonsterThumbnail.js remove button
+app.post('/api/removeMonster', async (req, res) => {
     console.log(req.body)
     try {
-        const digimon = await Digimon.create({
+        const monster = await MONSTER.deleteOne({
             userFrom: req.body.getEmail, // change here
-            digimonId: req.body.id,
-            digimonName: req.body.name,
-            digimonImage: req.body.image,
-            digimonType: req.body.type
+            monsterId: req.body.id,
+            monsterName: req.body.name,
+            monsterImage: req.body.image,
+            monsterType: req.body.type
         })
         res.json({ status: 'ok' })
     } catch (err) {
-        res.json({ status: 'error', error: 'Failed to favorite' })
+        res.json({ status: 'error', error: 'Failed to remove' })
     }
 })
 
+// USER REGRISTRATION 
 app.post('/api/register', async (req, res) => {
     console.log(req.body)
     try {
@@ -67,22 +63,7 @@ app.post('/api/register', async (req, res) => {
     }
 })
 
-// app.post('/api/getMonsters', async (req, res) => {
-//     const monster = await Pokemon.findMany({
-//         userFrom: req.body.x
-//     })
-
-//     return res.json({pokemonId, pokemonName, pokemonImage, pokemonType}); 
-// })
-
-// app.get('/api/getMonster', cors(), (req, res) => {
-//     const monsters = Pokemon.find({
-//         email: req.body.x
-//     })
-
-//     res.json(monsters); 
-// })
-
+// USER LOGIN
 app.post('/api/login', async (req, res) => {
     const user = await User.findOne({
         email: req.body.email,
@@ -109,33 +90,19 @@ app.post('/api/login', async (req, res) => {
     }
 })
 
+// LOAD FAVOURITE MONSTERS BASED ON USER EMAIL ADDRESS 
 app.get('/api/monster', async (req, res) => {
     const userEmail = req.headers['x-email']
 
-    Pokemon.find({ 'userFrom': userEmail })
+    MONSTER.find({ 'userFrom': userEmail })
         .exec((err, monster) => {
             if(err) return res.json({ status: 'error', error: 'Failed to load monster(s)'});
             return res.json({ status: 'ok', monster })
-        })
-
-    // try{
-    //     const mon = await Pokemon.findOne({ userFrom: userEmail })
-
-    //     return res.json({ 
-    //         status: 'ok',
-    //         id: mon.pokemonId,
-    //         name: mon.pokemonName,
-    //         image: mon.pokemonImage,
-    //         type: mon.pokemonType 
-    //     })
-    // } catch (error){
-    //     console.log(error)
-    //     res.json({ status: 'error', error: 'Failed to load monster(s)'})
-    // }    
+        })    
 })
 
-
-
+// ***DASHBOARD***
+// DASHBOARD TO TEST THE JWT TOKEN
 app.get('/api/quote', async (req, res) => {
 
     const token = req.headers['x-access-token']
@@ -150,27 +117,6 @@ app.get('/api/quote', async (req, res) => {
         console.log(error)
         res.json({ status: 'error', error: 'invalid token' })
     } 
-    
-
-    // const user = await User.findOne({
-    //     email: req.body.email,
-    //     password: req.body.password
-    // })
-
-    // if (user){
-
-    //     const token = jwt.sign(
-    //         {
-    //             name: user.name,
-    //             email: user.email
-    //         },
-    //         'secret123'
-    //     )
-
-    //     return res.json({ status: 'ok', user: token })
-    // } else {
-    //     res.json({ status: 'error', user: false })
-    // }
 })
 
 app.post('/api/quote', async (req, res) => {
@@ -188,7 +134,7 @@ app.post('/api/quote', async (req, res) => {
         res.json({ status: 'error', error: 'invalid token' })
     } 
 })
-
+// END OF DASHBOARD TO TEST THE JWT TOKEN 
 
 app.listen(1337, () => {
     console.log('Server started on 1337'); 

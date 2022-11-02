@@ -1,82 +1,37 @@
-import React from 'react'
-import Navbar from '../Navbar';
-import Footer from '../Footer'; 
-import Monster from './Monster';
+import React from 'react'; 
+import Navbar from '../components/Navbar/Navbar';
+import Footer from '../components/Footer/Footer'; 
+import Monster from '../components/Monster'; // to load the favourite monsters (Pokemon & Digimon)
 import './css/Account.css'; 
 
-
 export default function Account() {
+    // to display the current user email address for identification 
+    let email = localStorage.getItem('userEmail'); 
 
-    let x = localStorage.getItem('token')
-
+    // logout function runs when user clicked 'Logout'
     async function logoutUser(event){
         event.preventDefault()
 
-        localStorage.removeItem('token');
+        // clear Local Storage to prevent users without these information to access Pogimon
+        localStorage.removeItem('token'); 
         localStorage.removeItem('userEmail'); 
         
-        window.location.href = '/'; 
+        window.location.href = '/'; // brings back to login screen
     }
-
-    // async function displayMonster(){
-    //     const req = await fetch('https://localhost:1337/api/monster', {
-    //         headers: {
-    //             'x-email': localStorage.getItem('userEmail')
-    //         },
-    //     })
-
-    //     const data = await req.json()
-    //     if(data.status === 'ok'){
-
-    //     } else{
-    //         alert(data.error)
-    //     }
-    // }
-
-    // async function getMonster(event){
-    //     event.preventDefault()
     
-    //     const response = await fetch('http://localhost:1337/api/getMonsters', {
-    //       method: 'POST',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       }, 
-    //       body: JSON.stringify({
-    //         x
-    //       }), 
-    //     })
-    
-    //     const data = await response.json()
-
-    //     console.log(data); 
-    //     console.log(x); 
-    
-    //     if(data.user){
-    //       alert('Success')
-    //     } else{
-    //       alert('Failed')
-    //     }
-    
-    //     // console.log(data); 
-    // }
-
-    
-
+    // things that you can see
     return (
         <>
             <Navbar />
             <div class="main">
                 <h1>Account</h1>
-
+                <h2>{email}</h2>
                 <form onSubmit={logoutUser}>
                     <button class="button logoutButton">Logout</button>
                 </form>
             </div>
-
-            <Monster />
-
-            
-
+            <Monster />  
+            <br></br>       
             <Footer />
         </>
     )

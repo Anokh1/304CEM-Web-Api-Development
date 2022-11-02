@@ -1,10 +1,11 @@
 import { Link, useMatch, useResolvedPath } from "react-router-dom"
-import './styles.css'
+import './Navbar.css'
 
 export default function Navbar(){
     const path = window.location.pathname
     return <nav className="nav">
-        <Link to="/" className="site-title">Pogimon</Link>
+        {/* bring to home when clicked on 'Pogimon' */}
+        <Link to="/home" className="site-title">Pogimon</Link>
         <ul>
             <CustommLink to="/home">Home</CustommLink>
             <CustommLink to="/pokemon">Pokemon</CustommLink>
