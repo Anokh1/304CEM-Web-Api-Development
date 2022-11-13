@@ -8,7 +8,7 @@ const MONSTER = new mongoose.Schema(
     monsterImage: { type: String },
     monsterType: { type: String },
     },
-    { collection: 'favourite-monster' }
+    { collection: 'favourite-monster' } // Can see at MongoDB
 )
 
 const favouriteMon = mongoose.model('FavouriteMonster', MONSTER);

@@ -3,15 +3,17 @@ const app = express();
 const cors = require('cors'); 
 const mongoose = require('mongoose'); 
 const User = require('./models/user.model'); // login and register 
-const MONSTER = require('./models/favouriteMonster')
+const MONSTER = require('./models/favouriteMonster') // favourite Pokemon or Digimon
 const jwt = require('jsonwebtoken'); 
 const bcrypt = require('bcryptjs'); 
 
 app.use(cors())
 app.use(express.json())
 
+// MongoDB Connection String
 mongoose.connect('mongodb+srv://Adrian:1234@cluster0.5opqxgk.mongodb.net/PokeApi?retryWrites=true&w=majority ')
 
+// favourite-monster collection
 // Used by PokemonThumbnail.js and DigimonThumbnail.js Favourite button
 app.post('/api/favouriteMONSTER', async (req, res) => {
     console.log(req.body)
@@ -46,7 +48,20 @@ app.post('/api/removeMonster', async (req, res) => {
     }
 })
 
-// USER REGRISTRATION 
+// LOAD FAVOURITE MONSTERS BASED ON USER EMAIL ADDRESS 
+app.get('/api/monster', async (req, res) => {
+    const userEmail = req.headers['x-email']
+
+    MONSTER.find({ 'userFrom': userEmail })
+        .exec((err, monster) => {
+            if(err) return res.json({ status: 'error', error: 'Failed to load monster(s)'});
+            return res.json({ status: 'ok', monster })
+        })    
+})
+
+
+// user-data collection
+// USER REGISTRATION 
 app.post('/api/register', async (req, res) => {
     console.log(req.body)
     try {
@@ -90,16 +105,15 @@ app.post('/api/login', async (req, res) => {
     }
 })
 
-// LOAD FAVOURITE MONSTERS BASED ON USER EMAIL ADDRESS 
-app.get('/api/monster', async (req, res) => {
-    const userEmail = req.headers['x-email']
-
-    MONSTER.find({ 'userFrom': userEmail })
-        .exec((err, monster) => {
-            if(err) return res.json({ status: 'error', error: 'Failed to load monster(s)'});
-            return res.json({ status: 'ok', monster })
-        })    
+app.listen(1337, () => {
+    console.log('Server started on 1337'); 
 })
+
+
+
+
+
+
 
 // ***DASHBOARD***
 // DASHBOARD TO TEST THE JWT TOKEN
@@ -136,7 +150,5 @@ app.post('/api/quote', async (req, res) => {
 })
 // END OF DASHBOARD TO TEST THE JWT TOKEN 
 
-app.listen(1337, () => {
-    console.log('Server started on 1337'); 
-})
+
 
